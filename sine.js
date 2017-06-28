@@ -40,9 +40,7 @@ class Sine {
             Ty = Math.ceil(this.canvas.height / 2), // translate the y axis by half of the canvas height
             loopId = ++this.loopId,
             t1 = Date.now(),
-            vx = 0;
-
-        //c.clearRect(0, 0, cw, ch);
+            ps = 0;
 
         let frame = () => {
             if(loopId !== this.loopId) {
@@ -56,20 +54,18 @@ class Sine {
                 s = o.speed,
                 w = s / f, // wavelength
                 t2 = Date.now(),
-                dt = t2 - t1,
                 lx = 0,
                 ly = 0,
-                x,
-                ps;
+                x;
 
-            vx = vx + (dt / 1000 * s);
-            ps = (vx % w) / w * 360;
+            // calculate phase shift to simulate moving wave
+            ps = ps + ((t2 - t1) / 1000 * s);
 
             c.beginPath();
 
             for(x = 0; x < cw; ++x) {
-                let a = (x % w) / w * 360,
-                    y = Math.sin((a - ps) * Math.PI / 180) * A;
+                let a = (x + ps % w) / w * 360,
+                    y = Math.sin((a) * Math.PI / 180) * A;
 
                 c.moveTo(lx + Tx, ly + Ty);
                 c.lineTo(x + Tx, y + Ty);
