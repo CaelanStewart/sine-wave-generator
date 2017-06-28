@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="style.css" />
+        <title>Sine Wave Generator</title>
+    </head>
+    <body>
+        <div id="controls">
+            <label for="input-amplitude">Amp. (px)</label>
+            <input type="range" id="input-amplitude" class="set-option" name="amplitude" min="0" max="400" value="200" />
+
+            <label for="input-frequency">Freq.</label>
+            <input type="range" id="input-frequency" class="set-option" name="frequency" min="0" max="200" value="5" />
+
+            <label for="input-speed">Speed (px/s)</label>
+            <input type="range" id="input-speed" class="set-option" name="speed" min="0" max="2000" value="500" />
+        </div>
+        <canvas id="display"></canvas>
+        <script type="text/javascript" src="sine.js"></script>
+        <script>
+            let options = document.querySelectorAll('.set-option');
+
+            const sine = new Sine('#display', {
+                amplitude: +options[0].value,
+                frequency: +options[1].value,
+                speed: +options[2].value
+            });
+
+            Array.prototype.forEach.call(options, option => {
+                option.addEventListener('input', event => {
+                    let option = event.currentTarget;
+
+                    sine.options[option.name] = +option.value;
+                });
+            });
+        </script>
+    </body>
+</html>
